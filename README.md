@@ -1,35 +1,35 @@
 # ProCamera
-ProCameraÊÇÒ»¿î»ùÓÚCamera2 APIµÄÏà»ú£¬ÊµÏÖÁËÏà»úµÄ³£ÓÃ¹¦ÄÜ£¬Á¦Çó²»¶ÏÍÚ¾òCamera2µÄ¾Þ´óÇ±Á¦£¬¶ÍÔìÒ»¿îÔÚ¹¦ÄÜºÍÉè¼ÆÉÏÍêÃÀµÄÏà»ú²úÆ·¡£
+ProCameraæ˜¯ä¸€æ¬¾åŸºäºŽCamera2 APIçš„ç›¸æœºï¼Œå®žçŽ°äº†ç›¸æœºçš„å¸¸ç”¨åŠŸèƒ½ï¼ŒåŠ›æ±‚ä¸æ–­æŒ–æŽ˜Camera2çš„å·¨å¤§æ½œåŠ›ï¼Œé”»é€ ä¸€æ¬¾åœ¨åŠŸèƒ½å’Œè®¾è®¡ä¸Šå®Œç¾Žçš„ç›¸æœºäº§å“ã€‚
 ![camera2](https://github.com/18Gray/ProCamera/blob/master/screenshot/camera2.jpg)
 ![modeselect](https://github.com/18Gray/ProCamera/blob/master/screenshot/modeselect.jpg)
 
 
-## ¹¦ÄÜ
-1. Ïà»ú³£ÓÃ¹¦ÄÜ£º×Ô¶¯¶Ô½¹/²â¹â£¬ÊÖ¶¯¶Ô½¹/²â¹â£¬Ç°ºóÉãÏñÍ·ÇÐ»»£¬ÇÐ»»ÉÁ¹âµÆÄ£Ê½£¬Ê¹ÓÃHDR£¬Ìí¼ÓGPUÂË¾µ£¬ÅÄÉã±ÈÀýµ÷½Ú£¬ÑÓÊ±ÉãÓ°£¬Â¼ÖÆÊÓÆµ¡£
-2. Í¼Ïñ´¦ÀíÏà¹Ø£ºµã»÷×óÏÂ½Ç°´Å¥»á½øÈëÏà²á£¬Ñ¡È¡Ïà²áºó¿É½øÐÐÍ¼Ïñ´¦Àí¡£°üÀ¨£º²Ã¼ô£¬ÂË¾µ£¬×ÖÄ»£¬Ó¡¼Ç£¬¶Ô±È¶ÈµÈµÄµ÷½Ú¡£
+## åŠŸèƒ½
+1. ç›¸æœºå¸¸ç”¨åŠŸèƒ½ï¼šè‡ªåŠ¨å¯¹ç„¦/æµ‹å…‰ï¼Œæ‰‹åŠ¨å¯¹ç„¦/æµ‹å…‰ï¼Œå‰åŽæ‘„åƒå¤´åˆ‡æ¢ï¼Œåˆ‡æ¢é—ªå…‰ç¯æ¨¡å¼ï¼Œä½¿ç”¨HDRï¼Œæ·»åŠ GPUæ»¤é•œï¼Œæ‹æ‘„æ¯”ä¾‹è°ƒèŠ‚ï¼Œå»¶æ—¶æ‘„å½±ï¼Œå½•åˆ¶è§†é¢‘ã€‚
+2. å›¾åƒå¤„ç†ç›¸å…³ï¼šç‚¹å‡»å·¦ä¸‹è§’æŒ‰é’®ä¼šè¿›å…¥ç›¸å†Œï¼Œé€‰å–ç›¸å†ŒåŽå¯è¿›è¡Œå›¾åƒå¤„ç†ã€‚åŒ…æ‹¬ï¼šè£å‰ªï¼Œæ»¤é•œï¼Œå­—å¹•ï¼Œå°è®°ï¼Œå¯¹æ¯”åº¦ç­‰çš„è°ƒèŠ‚ã€‚
 
-## ¼òµ¥Ê¹ÓÃ·½·¨
-1. ÔÚxmlÖÐÒýÈëCamera2TextureViewÕâ¸ö¿Ø¼þ¡£
-2. ÔÚActivity»òFragmentÖÐ£¬ÏÈÉèÖÃÒ»¸ömFileµÄÂ·¾¶ÓÃÒÔ±£´æÍ¼Æ¬µØÖ·¡£
-3. ÔÚÆäonResume£¬µ÷ÓÃcameraTextureView.openCamera()´ò¿ªÏà»ú¡£
-4. µã»÷ÅÄÕÕ°´Å¥£¬µ÷ÓÃcameraTextureView.takePicture()¾ÍÍê³ÉÁËÅÄÕÕ¡£
-5. ÔÚonPauseÖÐµ÷ÓÃcameraTextureView.closeCamera()¹Ø±ÕÏà»ú¡£
+## ç®€å•ä½¿ç”¨æ–¹æ³•
+1. åœ¨xmlä¸­å¼•å…¥Camera2TextureViewè¿™ä¸ªæŽ§ä»¶ã€‚
+2. åœ¨Activityæˆ–Fragmentä¸­ï¼Œå…ˆè®¾ç½®ä¸€ä¸ªmFileçš„è·¯å¾„ç”¨ä»¥ä¿å­˜å›¾ç‰‡åœ°å€ã€‚
+3. åœ¨å…¶onResumeï¼Œè°ƒç”¨cameraTextureView.openCamera()æ‰“å¼€ç›¸æœºã€‚
+4. ç‚¹å‡»æ‹ç…§æŒ‰é’®ï¼Œè°ƒç”¨cameraTextureView.takePicture()å°±å®Œæˆäº†æ‹ç…§ã€‚
+5. åœ¨onPauseä¸­è°ƒç”¨cameraTextureView.closeCamera()å…³é—­ç›¸æœºã€‚
 
-## ¸´ÔÓÊ¹ÓÃ·½·¨
-¸´ÔÓÊ¹ÓÃ·½·¨Êµ¼ÊÊÇÔÚÉÏÃæ¼òµ¥Ê¹ÓÃ·½·¨»ù´¡ÉÏÔö¼ÓÁËµ÷½ÚÉÁ¹âµÆ¡¢Ç°ºóÉãÏñÍ·ÇÐ»»¡¢ÉèÖÃHDR¡¢ÂË¾µµÈ¹¦ÄÜ¡£
-ÕâÀïÆÕ±é²ÉÓÃµÄÒ»¸öË¼Â·ÊÇ£ºÔÚonClickÖÐµã»÷°´Å¥ºó£¬»áµ¯³öÒ»¸ö¶Ô»°¿òDialog»òPopupWindow£¬È»ºóÔÙµã»÷Dialog»òPopupWindowÉÏµÄÑ¡ÔñÏî£¬Ö®ºóÏûÏ¢»áÍ¨¹ýEventBus´«µ½Camera2FragmentÖÐ£¬ÔÚCamera2FragmentÖÐÍ¨¹ýonXXX·½·¨½ÓÊÕÏûÏ¢£¬ÔÙÖ´ÐÐcameraTextureView.xxx·½·¨Ö´ÐÐÏàÓ¦Ïà»ú²Ù×÷¡£
-ÒÔÉÁ¹âµÆÉèÖÃÎªÀý£º
-1. ÔÚonClickÖÐµ¯³öÁËPopupWindow¡£
-2. Ñ¡ÔñPopWindowÖÐËÄ¸öÑ¡ÔñÏîµÄÒ»¸ö£¬ÀýÈçiv_flash_autoÕâ¸ö£¬ÊÇÉèÖÃ×Ô¶¯ÉÁ¹â£¬ÓÚÊÇÍ¨¹ýEventBus·¢ËÍÏûÏ¢¡£
-3. ÔÚCamera2FragmentÖÐµÄonFlashSelect½ÓÊÕµ½ÏûÏ¢£¬ÏÈ½øÐÐÒ»Ð©UIµÄ¸Ä¶¯£¬È»ºócameraTextureView.setFlashModeÀ´ÉèÖÃÉÁ¹âµÆÄ£Ê½¡£
+## å¤æ‚ä½¿ç”¨æ–¹æ³•
+å¤æ‚ä½¿ç”¨æ–¹æ³•å®žé™…æ˜¯åœ¨ä¸Šé¢ç®€å•ä½¿ç”¨æ–¹æ³•åŸºç¡€ä¸Šå¢žåŠ äº†è°ƒèŠ‚é—ªå…‰ç¯ã€å‰åŽæ‘„åƒå¤´åˆ‡æ¢ã€è®¾ç½®HDRã€æ»¤é•œç­‰åŠŸèƒ½ã€‚
+è¿™é‡Œæ™®éé‡‡ç”¨çš„ä¸€ä¸ªæ€è·¯æ˜¯ï¼šåœ¨onClickä¸­ç‚¹å‡»æŒ‰é’®åŽï¼Œä¼šå¼¹å‡ºä¸€ä¸ªå¯¹è¯æ¡†Dialogæˆ–PopupWindowï¼Œç„¶åŽå†ç‚¹å‡»Dialogæˆ–PopupWindowä¸Šçš„é€‰æ‹©é¡¹ï¼Œä¹‹åŽæ¶ˆæ¯ä¼šé€šè¿‡EventBusä¼ åˆ°Camera2Fragmentä¸­ï¼Œåœ¨Camera2Fragmentä¸­é€šè¿‡onXXXæ–¹æ³•æŽ¥æ”¶æ¶ˆæ¯ï¼Œå†æ‰§è¡ŒcameraTextureView.xxxæ–¹æ³•æ‰§è¡Œç›¸åº”ç›¸æœºæ“ä½œã€‚
+ä»¥é—ªå…‰ç¯è®¾ç½®ä¸ºä¾‹ï¼š
+1. åœ¨onClickä¸­å¼¹å‡ºäº†PopupWindowã€‚
+2. é€‰æ‹©PopWindowä¸­å››ä¸ªé€‰æ‹©é¡¹çš„ä¸€ä¸ªï¼Œä¾‹å¦‚iv_flash_autoè¿™ä¸ªï¼Œæ˜¯è®¾ç½®è‡ªåŠ¨é—ªå…‰ï¼ŒäºŽæ˜¯é€šè¿‡EventBuså‘é€æ¶ˆæ¯ã€‚
+3. åœ¨Camera2Fragmentä¸­çš„onFlashSelectæŽ¥æ”¶åˆ°æ¶ˆæ¯ï¼Œå…ˆè¿›è¡Œä¸€äº›UIçš„æ”¹åŠ¨ï¼Œç„¶åŽcameraTextureView.setFlashModeæ¥è®¾ç½®é—ªå…‰ç¯æ¨¡å¼ã€‚
 
-## Gradleµ¼Èë
-
-
-## Proguard»ìÏý
+## Gradleå¯¼å…¥
 
 
-## ÆäËûÎÊÌâ
+## Proguardæ··æ·†
+
+
+## å…¶ä»–é—®é¢˜
 
 
 

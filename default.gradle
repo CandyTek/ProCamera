@@ -1,5 +1,5 @@
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -9,7 +9,7 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
-        multiDexEnabled true
+        //multiDexEnabled true
     }
 
     compileOptions {
@@ -43,7 +43,7 @@ android {
     buildTypes {
         debug {
             ndk {
-                abiFilters "armeabi-v7a", "x86"
+                abiFilters "armeabi-v7a"
             }
 //            shrinkResources false
             minifyEnabled false
@@ -52,7 +52,7 @@ android {
         }
         release {
             ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a"
+                abiFilters "armeabi-v7a"
             }
 //            shrinkResources true
             minifyEnabled true
@@ -78,7 +78,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // kotlin扩展
-    implementation rootProject.ext.dependencies["kotlin-stdlib-jdk8"]
+    //implementation rootProject.ext.dependencies["kotlin-stdlib-jdk8"]
     implementation rootProject.ext.dependencies["activity-ktx"]
     implementation rootProject.ext.dependencies["lifecycle-viewmodel-ktx"]
     implementation rootProject.ext.dependencies["lifecycle-livedata-ktx"]
