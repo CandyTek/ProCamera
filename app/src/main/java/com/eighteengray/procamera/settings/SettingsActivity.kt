@@ -5,17 +5,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.eighteengray.cardlibrary.bean.BaseDataBean
 import com.eighteengray.procamera.R
+import com.eighteengray.procamera.databinding.LayoutCommonTitleRecyclerBinding
 import com.eighteengray.procameralibrary.common.Constants
 import com.supaur.baseactivity.baseactivity.BaseActivity
-import kotlinx.android.synthetic.main.layout_common_title_recycler.*
 
 
 class SettingsActivity : BaseActivity() {
     lateinit var settingsViewModel: SettingsViewModel
-
+    private val binding by lazy { LayoutCommonTitleRecyclerBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_common_title_recycler)
+        setContentView(binding.root)
         initView()
     }
 
@@ -29,6 +29,7 @@ class SettingsActivity : BaseActivity() {
             when (it.showPageType) {
                 ShowPageType.Error -> showErrorView()
                 ShowPageType.Normal -> showData(it.settingsList)
+                else -> {}
             }
         })
 
@@ -39,7 +40,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun showData(settingsList: List<BaseDataBean<Settings>>?) {
-        rl_settings.showRecyclerView(settingsList, Constants.viewModelPackage)
+        binding.rlSettings.showRecyclerView(settingsList, Constants.viewModelPackage)
     }
 
 

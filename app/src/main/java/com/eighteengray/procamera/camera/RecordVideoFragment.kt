@@ -9,34 +9,43 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.eighteengray.procamera.R
 import com.eighteengray.procamera.common.JumpActivityUtils
+import com.eighteengray.procamera.databinding.LayoutFragmentVideoBinding
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure.Flash
 import com.eighteengray.procameralibrary.dataevent.RecordVideoEvent
-import kotlinx.android.synthetic.main.layout_fragment_video.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 
 
 class RecordVideoFragment: Fragment() {
     private var isRecording = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.layout_fragment_video, null)
-        initView()
         EventBus.getDefault().register(this)
-        return view
+        _binding = LayoutFragmentVideoBinding.inflate(inflater, container, false)
+        initView()
+        return binding.root
+    }
+    private var _binding: LayoutFragmentVideoBinding? = null
+    private val binding get() = _binding!!
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
         super.onResume()
-        recordTextureView.openCamera()
+        binding.recordTextureView.openCamera()
     }
 
     override fun onPause() {
-        if (recordTextureView != null) {
-            recordTextureView.closeCamera()
+        if (binding.recordTextureView != null) {
+            binding.recordTextureView.closeCamera()
         }
         super.onPause()
     }
@@ -48,40 +57,40 @@ class RecordVideoFragment: Fragment() {
     }
 
     private fun initView() {
-        iv_flash_camera.setOnClickListener {
+        binding.ivFlashCamera.setOnClickListener {
             val location1 = IntArray(2)
-            iv_flash_camera.getLocationOnScreen(location1)
+            binding.ivFlashCamera.getLocationOnScreen(location1)
             PopupWindowFactory.createFlashPopupWindow(getActivity()).showAtLocation(
-                iv_flash_camera,
+                binding.ivFlashCamera,
                 Gravity.NO_GRAVITY,
-                location1[0] + iv_flash_camera.width,
-                location1[1] - iv_flash_camera.height
+                location1[0] + binding.ivFlashCamera.width,
+                location1[1] - binding.ivFlashCamera.height
             )
         }
 
-        iv_switch_camera.setOnClickListener {
-            recordTextureView.switchCamera()
+        binding.ivSwitchCamera.setOnClickListener {
+            binding.recordTextureView.switchCamera()
         }
 
-        recordTextureView.setOnClickListener {
+        binding.recordTextureView.setOnClickListener {
         }
 
-        tv_mode_select.setOnClickListener {
+        binding.tvModeSelect.setOnClickListener {
             val modeSelectDialogFragment = ModeSelectDialogFragment()
             modeSelectDialogFragment.show(requireFragmentManager(), "Camera")
         }
 
-        iv_album_camera.setOnClickListener {
+        binding.ivAlbumCamera.setOnClickListener {
             JumpActivityUtils.jump2AlbumActivity(getActivity(), true, true, false)
         }
 
-        iv_shutter_camera.setOnClickListener {
+        binding.ivShutterCamera.setOnClickListener {
             if (!isRecording) {
                 isRecording = true
-                recordTextureView.startRecordVideo()
+                binding.recordTextureView.startRecordVideo()
             } else if (isRecording) {
                 isRecording = false
-                recordTextureView.stopRecordVideo()
+                binding.recordTextureView.stopRecordVideo()
             }
         }
 
@@ -90,16 +99,16 @@ class RecordVideoFragment: Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     @Throws(CameraAccessException::class)
     fun onFlashSelect(flash: Flash) {
-        recordTextureView.setFlashMode(flash.flash)
+        binding.recordTextureView.setFlashMode(flash.flash)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     @Throws(CameraAccessException::class)
     fun onRecordVideo(recordVideoEvent: RecordVideoEvent) {
         if (recordVideoEvent.isRecording) {
-            iv_shutter_camera.setImageResource(R.drawable.btn_shutter_recording)
+            binding.ivShutterCamera.setImageResource(R.drawable.btn_shutter_recording)
         } else {
-            iv_shutter_camera.setImageResource(R.drawable.btn_shutter_record)
+            binding.ivShutterCamera.setImageResource(R.drawable.btn_shutter_record)
         }
     }
 

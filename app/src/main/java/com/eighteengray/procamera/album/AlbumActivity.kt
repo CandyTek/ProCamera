@@ -5,11 +5,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.eighteengray.procamera.R
 import com.eighteengray.procamera.common.GenerateDataUtils
+import com.eighteengray.procamera.databinding.ActivityAlbumBinding
 import com.eighteengray.procamera.widget.dialogfragment.ImageFoldersDialogFragment
 import com.eighteengray.procameralibrary.common.Constants
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent
 import com.supaur.baseactivity.baseactivity.BaseActivity
-import kotlinx.android.synthetic.main.activity_album.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -22,10 +22,12 @@ class AlbumActivity : BaseActivity() {
     private var isTakeCamera = false
     private var isShowAdd = false
     var imageFoldersDialogFragment: ImageFoldersDialogFragment? = null
+    private val binding by lazy { ActivityAlbumBinding.inflate(layoutInflater) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_album)
+        setContentView(binding.root)
 
         val bundle = intent.extras
         isRadio = bundle!!.getBoolean(Constants.IS_RADIO)
@@ -47,6 +49,7 @@ class AlbumActivity : BaseActivity() {
             when (it.showPageType) {
                 ShowPageType.Error -> showErrorView()
                 ShowPageType.Normal -> showData(it.imageFolderList)
+                else -> {}
             }
         })
 
@@ -57,7 +60,7 @@ class AlbumActivity : BaseActivity() {
     }
 
     private fun showData(imageFolderList: List<ImageFolder>?) {
-        tv_select_album.setOnClickListener {
+        binding.tvSelectAlbum.setOnClickListener {
             var imageFoldersDialogFragment = ImageFoldersDialogFragment()
             val bundle = Bundle()
 //            bundle.putSerializable(Constants.IMAGEFOLDERS, imageFolderList)
@@ -73,7 +76,7 @@ class AlbumActivity : BaseActivity() {
         val currentImageFolderNum = imageFolderEvent.currentImageFolderNum
         updateImageFolderList(albumViewModel.albumViewState.value?.imageFolderList!!, currentImageFolderNum)
         setAdapterData(albumViewModel.albumViewState.value?.imageFolderList!!, currentImageFolderNum)
-        tv_select_album.text = albumViewModel.albumViewState.value?.imageFolderList!![currentImageFolderNum].name
+        binding.tvSelectAlbum.text = albumViewModel.albumViewState.value?.imageFolderList!![currentImageFolderNum].name
         if (imageFoldersDialogFragment != null && imageFoldersDialogFragment!!.isVisible) {
             imageFoldersDialogFragment!!.dismiss()
         }
@@ -82,7 +85,7 @@ class AlbumActivity : BaseActivity() {
     fun setAdapterData(imageFolderList: List<ImageFolder?>, currentImageFolderNum: Int) {
         if (imageFolderList != null && imageFolderList.isNotEmpty()) {
             val imageItemList: List<ImageItem> = imageFolderList[currentImageFolderNum]?.imagePathList!!
-            rl_pics_album.showRecyclerView(
+            binding.rlPicsAlbum.showRecyclerView(
                 GenerateDataUtils.generateDataBeanList(1, imageItemList),
                 Constants.viewModelPackage
             )

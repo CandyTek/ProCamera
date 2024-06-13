@@ -3,21 +3,21 @@ package com.eighteengray.procamera.webview
 import android.os.Bundle
 import android.webkit.WebSettings
 import com.eighteengray.procamera.R
+import com.eighteengray.procamera.databinding.ActivityWebViewBinding
 import com.supaur.baseactivity.baseactivity.BaseActivity
-import kotlinx.android.synthetic.main.activity_web_view.*
 
 class WebViewActivity: BaseActivity() {
 
-
+    private val binding by lazy { ActivityWebViewBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_web_view)
+        setContentView(binding.root)
 
         initView()
     }
 
     private fun initView() {
-        var webSettings = bridge_web_view.settings
+        var webSettings = binding.bridgeWebView.settings
         webSettings.javaScriptEnabled = true
         webSettings.useWideViewPort = true //将图片调整到适合webview的大小
         webSettings.loadWithOverviewMode = true // 缩放至屏幕的大小
@@ -31,7 +31,7 @@ class WebViewActivity: BaseActivity() {
         webSettings.defaultTextEncodingName = "utf-8" //设置编码格式
 
 
-        bridge_web_view.loadUrl("file:///android_asset/demo.html")
+        binding.bridgeWebView.loadUrl("file:///android_asset/demo.html")
 
 
     }

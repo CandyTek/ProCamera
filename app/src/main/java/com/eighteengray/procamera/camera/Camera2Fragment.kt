@@ -16,6 +16,7 @@ import com.eighteengray.commonutillibrary.FileUtils
 import com.eighteengray.commonutillibrary.SDCardUtils
 import com.eighteengray.procamera.R
 import com.eighteengray.procamera.common.JumpActivityUtils
+import com.eighteengray.procamera.databinding.LayoutFragmentCamera2Binding
 import com.eighteengray.procamera.widget.TextureViewTouchListener
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory
@@ -23,7 +24,6 @@ import com.eighteengray.procameralibrary.common.Constants
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure.*
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent.ImagePathAvailable
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent.ImageReaderAvailable
-import kotlinx.android.synthetic.main.layout_fragment_camera2.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -39,12 +39,21 @@ class Camera2Fragment: Fragment() {
     var isEFFECTVisible = false
     private var delayTime = 0
 
+    private var _binding: LayoutFragmentCamera2Binding? = null
+    private val binding get() = _binding!!
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mFile = FileUtils.createFile(SDCardUtils.getAppFile(activity).absolutePath, "saveImg")
 
         EventBus.getDefault().register(this)
-        return inflater.inflate(R.layout.layout_fragment_camera2, null)
+        _binding = LayoutFragmentCamera2Binding.inflate(inflater, container, false)
+        return binding.root
+
     }
 
     override fun onResume() {
@@ -53,13 +62,13 @@ class Camera2Fragment: Fragment() {
     }
 
     private fun initView() {
-        rl_scene.showRecyclerView(generateSceneData(), Constants.viewModelPackage)
-        rl_effect.showRecyclerView(generateEffectData(), Constants.viewModelPackage)
+        binding.rlScene.showRecyclerView(generateSceneData(), Constants.viewModelPackage)
+        binding.rlEffect.showRecyclerView(generateEffectData(), Constants.viewModelPackage)
 
-        seekbar_camera2.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+        binding.seekbarCamera2.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 try {
-                    cameraTextureView.changeFocusDistance(progress)
+                    binding.cameraTextureView.changeFocusDistance(progress)
                 } catch (e: CameraAccessException) {
                     e.printStackTrace()
                 }
@@ -69,81 +78,81 @@ class Camera2Fragment: Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
 
-        iv_flash_camera.setOnClickListener {
-            tv_mode_gpufileter.visibility = View.GONE
+        binding.ivFlashCamera.setOnClickListener {
+            binding.tvModeGpufileter.visibility = View.GONE
             val location1 = IntArray(2)
-            iv_flash_camera.getLocationOnScreen(location1)
+            binding.ivFlashCamera.getLocationOnScreen(location1)
             PopupWindowFactory.createFlashPopupWindow(getActivity()).showAtLocation(
-                iv_flash_camera,
+                binding.ivFlashCamera,
                 Gravity.LEFT or Gravity.TOP,
-                location1[0] + iv_flash_camera.width,
-                location1[1] - iv_flash_camera.height + 60
+                location1[0] + binding.ivFlashCamera.width,
+                location1[1] - binding.ivFlashCamera.height + 60
             )
         }
 
-        iv_switch_camera.setOnClickListener {
-            cameraTextureView.switchCamera()
+        binding.ivSwitchCamera.setOnClickListener {
+            binding.cameraTextureView.switchCamera()
         }
 
-        tv_scene_camera.setOnClickListener {
-            if (rl_effect.visibility == View.VISIBLE) {
-                rl_effect.visibility = View.GONE
+        binding.tvSceneCamera.setOnClickListener {
+            if (binding.rlEffect.visibility == View.VISIBLE) {
+                binding.rlEffect.visibility = View.GONE
             }
             if (!isHDRVisible) {
-                rl_scene.visibility = View.VISIBLE
+                binding.rlScene.visibility = View.VISIBLE
                 isHDRVisible = true
             } else {
-                rl_scene.visibility = View.GONE
+                binding.rlScene.visibility = View.GONE
                 isHDRVisible = false
             }
         }
 
-        tv_mode_select.setOnClickListener {
+        binding.tvModeSelect.setOnClickListener {
             val modeSelectDialogFragment = ModeSelectDialogFragment()
             modeSelectDialogFragment.show(requireFragmentManager(), "mode")
         }
 
-        iv_gpufilter_camera.setOnClickListener {
-            if (rl_scene.visibility == View.VISIBLE) {
-                rl_scene.visibility = View.GONE
+        binding.ivGpufilterCamera.setOnClickListener {
+            if (binding.rlScene.visibility == View.VISIBLE) {
+                binding.rlScene.visibility = View.GONE
             }
             if (!isEFFECTVisible) {
-                rl_effect.visibility = View.VISIBLE
+                binding.rlEffect.visibility = View.VISIBLE
                 isEFFECTVisible = true
             } else {
-                rl_effect.visibility = View.GONE
+                binding.rlEffect.visibility = View.GONE
                 isEFFECTVisible = false
             }
         }
 
-        iv_album_camera.setOnClickListener {
+        binding.ivAlbumCamera.setOnClickListener {
             JumpActivityUtils.jump2AlbumActivity(getActivity(), true, true, false)
         }
 
-        iv_ratio_camera.setOnClickListener {
+        binding.ivRatioCamera.setOnClickListener {
             val location = IntArray(2)
-            iv_ratio_camera.getLocationOnScreen(location)
-            PopupWindowFactory.createRatioPopupWindow(activity).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, 500)
+            binding.ivRatioCamera.getLocationOnScreen(location)
+            PopupWindowFactory.createRatioPopupWindow(activity).showAtLocation(binding.ivRatioCamera, Gravity.BOTTOM, 0, 500)
         }
 
-        iv_shutter_camera.setOnClickListener {
+        binding.ivShutterCamera.setOnClickListener {
             showViewTakePicture()
-            cameraTextureView.takePicture()
+            binding.cameraTextureView.takePicture()
         }
 
-        iv_delay_shutter.setOnClickListener {
+        binding.ivDelayShutter.setOnClickListener {
             when (delayTime) {
                 0 -> delayTime = 3
                 3 -> delayTime = 10
                 10 -> delayTime = 0
             }
-            tv_delay_second.text = delayTime.toString() + ""
-            cameraTextureView.setDalayTime((delayTime * 1000).toLong())
+            binding.tvDelaySecond.text = delayTime.toString() + ""
+            binding.cameraTextureView.setDalayTime((delayTime * 1000).toLong())
         }
 
-        cameraTextureView.openCamera()
-        textureViewTouchListener = TextureViewTouchListener(cameraTextureView)
-        cameraTextureView.setOnTouchListener(textureViewTouchListener)
+        binding.cameraTextureView.openCamera()
+        textureViewTouchListener = TextureViewTouchListener(binding.cameraTextureView)
+        binding.cameraTextureView.setOnTouchListener(textureViewTouchListener)
     }
 
     private fun generateSceneData(): List<BaseDataBean<String>>? {
@@ -192,13 +201,13 @@ class Camera2Fragment: Fragment() {
     }
 
     private fun showViewTakePicture() {
-        iv_takepicture_done.visibility = View.VISIBLE
-        iv_takepicture_done.visibility = View.GONE
+        binding.ivTakepictureDone.visibility = View.VISIBLE
+        binding.ivTakepictureDone.visibility = View.GONE
     }
 
     override fun onPause() {
-        if (cameraTextureView != null) {
-            cameraTextureView.closeCamera()
+        if (binding.cameraTextureView != null) {
+            binding.cameraTextureView.closeCamera()
         }
         super.onPause()
     }
@@ -212,37 +221,37 @@ class Camera2Fragment: Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN) //闪光灯设置
     @Throws(CameraAccessException::class)
     fun onFlashSelect(flash: Flash) {
-        tv_mode_gpufileter.visibility = View.VISIBLE
+        binding.tvModeGpufileter.visibility = View.VISIBLE
         when (flash.flash) {
-            Constants.FLASH_AUTO -> iv_flash_camera.setImageResource(R.mipmap.flash_auto_white_24dp)
-            Constants.FLASH_ON -> iv_flash_camera.setImageResource(R.mipmap.flash_on_white_24dp)
-            Constants.FLASH_OFF -> iv_flash_camera.setImageResource(R.mipmap.flash_off_white_24dp)
-            Constants.FLASH_FLARE -> iv_flash_camera.setImageResource(R.mipmap.flash_flare_white_24dp)
+            Constants.FLASH_AUTO -> binding.ivFlashCamera.setImageResource(R.mipmap.flash_auto_white_24dp)
+            Constants.FLASH_ON -> binding.ivFlashCamera.setImageResource(R.mipmap.flash_on_white_24dp)
+            Constants.FLASH_OFF -> binding.ivFlashCamera.setImageResource(R.mipmap.flash_off_white_24dp)
+            Constants.FLASH_FLARE -> binding.ivFlashCamera.setImageResource(R.mipmap.flash_flare_white_24dp)
         }
-        cameraTextureView.setFlashMode(flash.flash)
-        tv_mode_gpufileter.visibility = View.VISIBLE
+        binding.cameraTextureView.setFlashMode(flash.flash)
+        binding.tvModeGpufileter.visibility = View.VISIBLE
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //HDR模式选择
     @Throws(CameraAccessException::class)
     fun onSceneSelect(scene: Scene) {
-        cameraTextureView.setSceneMode(scene.scene)
-        rl_scene.visibility = View.GONE
+        binding.cameraTextureView.setSceneMode(scene.scene)
+        binding.rlScene.visibility = View.GONE
         isHDRVisible = false
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //GPU滤镜选择
     @Throws(CameraAccessException::class)
     fun onEffectSelect(effect: Effect) {
-        cameraTextureView.setEffectMode(effect.effect)
-        tv_mode_gpufileter.text = effect.effect
-        rl_effect.visibility = View.GONE
+        binding.cameraTextureView.setEffectMode(effect.effect)
+        binding.tvModeGpufileter.text = effect.effect
+        binding.rlEffect.visibility = View.GONE
         isEFFECTVisible = false
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //拍摄比例调节
     fun onRatioSelect(ratio: Ratio) {
-        cameraTextureView.setRatioMode(ratio.ratio)
+        binding.cameraTextureView.setRatioMode(ratio.ratio)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //延时拍摄
@@ -270,7 +279,7 @@ class Camera2Fragment: Fragment() {
         val bitmap = BitmapFactory.decodeFile(imagePathAvailable.imagePath)
         if (bitmap != null) {
             val thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 120, 120)
-            iv_album_camera.setImageBitmap(thumbnail)
+            binding.ivAlbumCamera.setImageBitmap(thumbnail)
         }
     }
 

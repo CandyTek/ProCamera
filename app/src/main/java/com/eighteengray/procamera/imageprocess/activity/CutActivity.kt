@@ -9,17 +9,18 @@ import com.eighteengray.commonutillibrary.ImageUtils
 import com.eighteengray.commonutillibrary.SDCardUtils
 import com.eighteengray.commonutillibrary.ScreenUtils
 import com.eighteengray.procamera.R
+import com.eighteengray.procamera.databinding.AtyCutBinding
 import com.eighteengray.procameralibrary.common.Constants
 import com.supaur.baseactivity.baseactivity.BaseActivity
-import kotlinx.android.synthetic.main.aty_cut.*
 import java.io.File
 
 
 class CutActivity: BaseActivity() {
-
+    private val binding by lazy { AtyCutBinding.inflate(layoutInflater) }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.aty_cut)
+        setContentView(binding.root)
         initView()
     }
 
@@ -28,10 +29,10 @@ class CutActivity: BaseActivity() {
         var path = intent.getStringExtra(Constants.CROPIMAGEPATH)
         var bitmap = ImageUtils.getBitmapFromPathSimple(path)
         var drawable = BitmapDrawable(bitmap)
-        civ_cut.setDrawable(drawable, width - 100, width - 100)
+        binding.civCut.setDrawable(drawable, width - 100, width - 100)
 
-        iv_back.setOnClickListener {
-            val cutBitmap: Bitmap = civ_cut.cropImage
+        binding.ivBack.setOnClickListener {
+            val cutBitmap: Bitmap = binding.civCut.cropImage
             val file: File = FileUtils.createFile(
                 SDCardUtils.getAppFile(this@CutActivity).absolutePath,
                 "cutBitmap.jpg"
